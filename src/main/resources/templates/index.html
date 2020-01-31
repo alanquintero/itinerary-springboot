@@ -17,9 +17,7 @@
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
 	integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
 	crossorigin="anonymous">
-
 </head>
-
 <body>
 
 	<main role="main" class="container">
@@ -48,7 +46,7 @@
 					<td><span th:text="${flight.destination}"></span></td>
 					<td><span th:text="${flight.destination}"></span></td>
 					<td><span th:text="${flight.price + ' ' + flight.currency}"></span></td>
-					<td><button type="button" class="btn btn-primary">Book</button></td>
+					<td><button type="button" onclick="isAvailable()" class="btn btn-primary">Book</button></td>
 				</tr>
 			</tbody>
 		</table>
@@ -59,7 +57,11 @@
 	<script type="text/javascript"
 		th:src="@{webjars/bootstrap/4.2.1/js/bootstrap.min.js}"></script>
 </body>
-
+<script>
+function isAvailable() {
+	window.location.href = window.location.href + "isAvailable"
+}
+</script>
 <!-- Latest compiled and minified JavaScript -->
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"

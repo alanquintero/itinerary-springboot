@@ -5,9 +5,6 @@
 
 package itinerary_springboot.test_task.model;
 
-import itinerary_springboot.test_task.utils.Common;
-import itinerary_springboot.test_task.utils.Common.Currency;
-
 public class Itinerary {
 
 	private int id;
@@ -18,11 +15,11 @@ public class Itinerary {
 
 	private double price;
 
-	private Common.Currency currency;
+	private String currency;
 
 	private double exchangeRate;
 
-	public Itinerary(int id, String origin, String destination, double price, Currency currency) {
+	public Itinerary(int id, String origin, String destination, double price, String currency) {
 		super();
 		this.id = id;
 		this.origin = origin;
@@ -31,7 +28,7 @@ public class Itinerary {
 		this.currency = currency;
 	}
 
-	public Itinerary(int id, String origin, String destination, double price, Currency currency, double exchangeRate) {
+	public Itinerary(int id, String origin, String destination, double price, String currency, double exchangeRate) {
 		super();
 		this.id = id;
 		this.origin = origin;
@@ -73,11 +70,11 @@ public class Itinerary {
 		this.price = price;
 	}
 
-	public Common.Currency getCurrency() {
+	public String getCurrency() {
 		return currency;
 	}
 
-	public void setCurrency(Common.Currency currency) {
+	public void setCurrency(String currency) {
 		this.currency = currency;
 	}
 

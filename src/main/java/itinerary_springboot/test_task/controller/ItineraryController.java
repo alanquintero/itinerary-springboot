@@ -38,5 +38,15 @@ public class ItineraryController {
 		model.addAttribute("flights", itineraryService.getAvailableItineraries());
 		return "index"; // view
 	}
+	
+	@GetMapping("/isAvailable")
+	public String checkAvailability(Model model) {
+		LOGGER.info("ItineraryController in /isAvaiable route");
+		// hardcoded user
+		model.addAttribute("available", true);
+		// flights
+		model.addAttribute("flights", itineraryService.getAvailableItineraries());
+		return "book"; // view
+	}
 
 }
