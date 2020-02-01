@@ -3,7 +3,7 @@
 * @author Alan Quintero
 */
 
-package itinerary_springboot.test_task.config;
+package itinerary.task.config;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,7 +13,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 /**
  * Run this class to start the application at http://localhost:8080/
  */
-@SpringBootApplication(scanBasePackages = "itinerary_springboot.test_task")
+@SpringBootApplication(scanBasePackages = "itinerary.task")
 public class StartWebApplication {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(StartWebApplication.class);

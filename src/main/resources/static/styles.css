@@ -1,0 +1,11 @@
+#book-form {
+	display: none;
+}
+
+.hidden-important {
+	display: none; !important;
+}
+
+.hidden {
+	display: none;
+}

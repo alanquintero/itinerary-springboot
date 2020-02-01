@@ -3,7 +3,7 @@
 * @author Alan Quintero
 */
 
-package itinerary_springboot.test_task.controller;
+package itinerary.task.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,12 +12,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import itinerary_springboot.test_task.service.ItineraryService;
+import itinerary.task.service.ItineraryService;
 
 @Controller
-public class ItineraryController {
+public class MainController {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(ItineraryController.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(MainController.class);
 
 	@Autowired
 	private ItineraryService itineraryService;
@@ -31,22 +31,10 @@ public class ItineraryController {
 	 */
 	@GetMapping("/")
 	public String main(Model model) {
-		LOGGER.info("ItineraryController in / route");
-		// hardcoded user
-		model.addAttribute("message", "Alan Quintero");
+		LOGGER.info("MainController in / route");
 		// flights
 		model.addAttribute("flights", itineraryService.getAvailableItineraries());
 		return "index"; // view
-	}
-	
-	@GetMapping("/isAvailable")
-	public String checkAvailability(Model model) {
-		LOGGER.info("ItineraryController in /isAvaiable route");
-		// hardcoded user
-		model.addAttribute("available", true);
-		// flights
-		model.addAttribute("flights", itineraryService.getAvailableItineraries());
-		return "book"; // view
 	}
 
 }

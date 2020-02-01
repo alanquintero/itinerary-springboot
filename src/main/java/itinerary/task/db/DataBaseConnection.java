@@ -3,7 +3,7 @@
 * @author Alan Quintero
 */
 
-package itinerary_springboot.test_task.db;
+package itinerary.task.db;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -33,8 +33,13 @@ public class DataBaseConnection {
 	@Value("${spring.datasource.password}")
 	private String dbPass;
 
-	private Connection conn;
+	private Connection conn = null;
 
+	/**
+	 * Creates a new db connection.
+	 * 
+	 * @return Connection
+	 */
 	public Connection createConnection() {
 		try {
 			Class.forName(dbDriver);
@@ -48,6 +53,9 @@ public class DataBaseConnection {
 		return conn;
 	}
 
+	/**
+	 * Closes and set to null existent connection.
+	 */
 	public void closeConnection() {
 		try {
 			if (conn != null) {

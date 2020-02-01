@@ -3,9 +3,9 @@
 * @author Alan Quintero
 */
 
-package itinerary_springboot.test_task.model;
+package itinerary.task.model;
 
-public class Itinerary {
+public class Flight {
 
 	private int id;
 
@@ -19,7 +19,7 @@ public class Itinerary {
 
 	private double exchangeRate;
 
-	public Itinerary(int id, String origin, String destination, double price, String currency) {
+	public Flight(int id, String origin, String destination, double price, String currency) {
 		super();
 		this.id = id;
 		this.origin = origin;
@@ -28,7 +28,7 @@ public class Itinerary {
 		this.currency = currency;
 	}
 
-	public Itinerary(int id, String origin, String destination, double price, String currency, double exchangeRate) {
+	public Flight(int id, String origin, String destination, double price, String currency, double exchangeRate) {
 		super();
 		this.id = id;
 		this.origin = origin;

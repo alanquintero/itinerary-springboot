@@ -3,7 +3,7 @@
 * @author Alan Quintero
 */
 
-package itinerary_springboot.test_task.service;
+package itinerary.task.service;
 
 import java.util.List;
 
@@ -12,8 +12,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import itinerary_springboot.test_task.dao.ItineraryDao;
-import itinerary_springboot.test_task.model.Itinerary;
+import itinerary.task.dao.ItineraryDao;
+import itinerary.task.model.Flight;
+import itinerary.task.model.Reservation;
+import itinerary.task.model.Response;
 
 @Service
 public class ItineraryServiceImpl implements ItineraryService {
@@ -23,9 +25,15 @@ public class ItineraryServiceImpl implements ItineraryService {
 	@Autowired
 	private ItineraryDao itineraryDao;
 
-	public List<Itinerary> getAvailableItineraries() {
+	public List<Flight> getAvailableItineraries() {
 		LOGGER.info("ItineraryService::getAvailableItineraries");
+		// TODO add exchange rate
 		return itineraryDao.getAvailableItineraries();
+	}
+
+	@Override
+	public Response reserveFlight(Reservation reservation) {
+		return itineraryDao.reserveFlight(reservation);
 	}
 
 }
