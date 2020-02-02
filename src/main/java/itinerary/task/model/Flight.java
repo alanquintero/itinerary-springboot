@@ -7,7 +7,7 @@ package itinerary.task.model;
 
 public class Flight {
 
-	private int id;
+	private long id;
 
 	private String origin;
 
@@ -19,7 +19,9 @@ public class Flight {
 
 	private double exchangeRate;
 
-	public Flight(int id, String origin, String destination, double price, String currency) {
+	private double usdPrice;
+
+	public Flight(long id, String origin, String destination, double price, String currency) {
 		super();
 		this.id = id;
 		this.origin = origin;
@@ -28,7 +30,7 @@ public class Flight {
 		this.currency = currency;
 	}
 
-	public Flight(int id, String origin, String destination, double price, String currency, double exchangeRate) {
+	public Flight(long id, String origin, String destination, double price, String currency, double exchangeRate) {
 		super();
 		this.id = id;
 		this.origin = origin;
@@ -38,11 +40,11 @@ public class Flight {
 		this.exchangeRate = exchangeRate;
 	}
 
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
@@ -84,6 +86,14 @@ public class Flight {
 
 	public void setExchangeRate(double exchangeRate) {
 		this.exchangeRate = exchangeRate;
+	}
+
+	public double getUsdPrice() {
+		return usdPrice;
+	}
+
+	public void setUsdPrice(double usdPrice) {
+		this.usdPrice = usdPrice;
 	}
 
 }

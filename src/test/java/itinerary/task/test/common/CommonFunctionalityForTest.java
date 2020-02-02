@@ -3,10 +3,11 @@
 * @author Alan Quintero
 */
 
-package itinerary.task.db;
+package itinerary.task.test.common;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 import org.slf4j.Logger;
@@ -17,9 +18,45 @@ import org.springframework.stereotype.Component;
 
 @Component
 @PropertySource("classpath:application.properties")
-public class DataBaseConnection {
+public class CommonFunctionalityForTest {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(DataBaseConnection.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(CommonFunctionalityForTest.class);
+
+	public long flightId = System.currentTimeMillis() / 1000L;
+
+	/**
+	 * Insert one flight using epoch id
+	 */
+	public void createFlightData() {
+		try (PreparedStatement preparedStatement = createConnection().prepareStatement(
+				"INSERT INTO flights (id, origin_fk, destination_fk, price, currency_fk, book) values (?, 1, 2, 1000, 1, false)");) {
+			preparedStatement.setLong(1, flightId);
+			preparedStatement.executeUpdate();
+		} catch (SQLException e) {
+			LOGGER.error(e.getMessage(), e);
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+		}
+	}
+
+	/**
+	 * Delete created flight using epoch id generated
+	 */
+	public void clearFlightData() {
+		try (PreparedStatement preparedStatement = createConnection()
+				.prepareStatement("DELETE FROM flights WHERE id = ?");) {
+			preparedStatement.setLong(1, flightId);
+			preparedStatement.executeUpdate();
+		} catch (SQLException e) {
+			LOGGER.error(e.getMessage(), e);
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+		}
+	}
+
+	/***
+	 * %%%%%%%%%%%%%% DATABASE CONNECTION STARTS %%%%%%%%%%%%%%
+	 */
 
 	@Value("${spring.datasource.driver}")
 	private String dbDriver;
@@ -66,5 +103,9 @@ public class DataBaseConnection {
 			LOGGER.error(e.getMessage(), e);
 		}
 	}
+
+	/***
+	 * %%%%%%%%%%%%%% DATABASE CONNECTION ENDS %%%%%%%%%%%%%%
+	 */
 
 }

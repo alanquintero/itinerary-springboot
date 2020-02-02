@@ -14,14 +14,16 @@ import itinerary.task.model.Response;
 public interface ItineraryService {
 
 	/**
-	 * getAvailableItineraries abstract method
-	 * @return List of Itinerary
+	 * getAvailableFlights abstract method
+	 * 
+	 * @return List of Flight
 	 */
-	List<Flight> getAvailableItineraries();
-	
+	List<Flight> getAvailableFlights();
+
 	/**
 	 * reserveFlight abstract method
-	 * @param reservation
+	 * 
+	 * @param Reservation
 	 * @return Response
 	 */
 	Response reserveFlight(Reservation reservation);

@@ -12,19 +12,20 @@ import itinerary.task.model.Reservation;
 import itinerary.task.model.Response;
 
 public interface ItineraryDao {
-	
+
 	/**
-	 * getAvailableItineraries abstract method
-	 * @return List of Itinerary
+	 * getAvailableFlights abstract method
+	 * 
+	 * @return List of Flight
 	 */
-	List<Flight> getAvailableItineraries();
-	
+	List<Flight> getAvailableFlights();
+
 	/**
 	 * reserveFlight abstract method
-	 * @param reservation
-	 * @return Reservation
+	 * 
+	 * @param Reservation
+	 * @return Response
 	 */
 	Response reserveFlight(Reservation reservation);
 
 }
-

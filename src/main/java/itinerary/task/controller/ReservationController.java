@@ -25,13 +25,13 @@ public class ReservationController {
 	private ItineraryService itineraryService;
 
 	/**
-	 * Reservation controller. Receives the reservation details and try to book a flight.
+	 * Receives the reservation details and try to book a flight.
 	 * 
 	 * @param Reservation
 	 * @return Response
 	 */
 	@PostMapping(path = "/reserveFlight", consumes = "application/json", produces = "application/json")
-	public Response customerInformation(@RequestBody Reservation reservation) {
+	public Response reserveFlight(@RequestBody Reservation reservation) {
 		LOGGER.info("ReservationController in /reserveFlight route");
 		return itineraryService.reserveFlight(reservation);
 	}

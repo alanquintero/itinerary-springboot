@@ -11,11 +11,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import itinerary.task.dao.ItineraryDao;
 import itinerary.task.model.Flight;
 import itinerary.task.model.Reservation;
 import itinerary.task.model.Response;
+import itinerary.task.utils.Common;
 
 @Service
 public class ItineraryServiceImpl implements ItineraryService {
@@ -25,14 +27,22 @@ public class ItineraryServiceImpl implements ItineraryService {
 	@Autowired
 	private ItineraryDao itineraryDao;
 
-	public List<Flight> getAvailableItineraries() {
-		LOGGER.info("ItineraryService::getAvailableItineraries");
-		// TODO add exchange rate
-		return itineraryDao.getAvailableItineraries();
+	public List<Flight> getAvailableFlights() {
+		LOGGER.info("ItineraryService::getAvailableFlights");
+		List<Flight> availableFlights = itineraryDao.getAvailableFlights();
+		/*
+		 * Note: this could be done with a query when getting the list but I wanted to
+		 * have some operations with the data in the service layer.
+		 */
+		availableFlights.stream()
+				.forEach(i -> i.setUsdPrice(Common.getDoubleWithFixedDecimals(i.getPrice() / i.getExchangeRate())));
+		return availableFlights;
 	}
 
 	@Override
+	@Transactional
 	public Response reserveFlight(Reservation reservation) {
+		LOGGER.info("ItineraryService::reserveFlight");
 		return itineraryDao.reserveFlight(reservation);
 	}
 

@@ -43,4 +43,8 @@ public class Constants {
 
 	public static final String MESSAGE_ALREADY_BOOKED = "We're sorry! The flight has already been reserved by a faster user...";
 
+	public static final String STATUS_ERROR = "error";
+
+	public static final String MESSAGE_ERROR = "Something went wrong. Please contact admin.";
+
 }

@@ -32,8 +32,8 @@ public class MainController {
 	@GetMapping("/")
 	public String main(Model model) {
 		LOGGER.info("MainController in / route");
-		// flights
-		model.addAttribute("flights", itineraryService.getAvailableItineraries());
+		// list of available flights
+		model.addAttribute("flights", itineraryService.getAvailableFlights());
 		return "index"; // view
 	}
 

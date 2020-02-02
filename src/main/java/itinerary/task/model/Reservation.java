@@ -7,17 +7,17 @@ package itinerary.task.model;
 
 public class Reservation {
 
-	private int flightId;
+	private long flightId;
 
 	private String firstName;
 
 	private String lastName;
 
-	public int getFlightId() {
+	public long getFlightId() {
 		return flightId;
 	}
 
-	public void setFlightId(int flightId) {
+	public void setFlightId(long flightId) {
 		this.flightId = flightId;
 	}
 

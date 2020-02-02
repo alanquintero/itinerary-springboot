@@ -5,6 +5,8 @@
 
 package itinerary.task.model;
 
+import itinerary.task.utils.Constants;
+
 public class Response {
 
 	private String status;
@@ -13,8 +15,8 @@ public class Response {
 
 	public Response() {
 		// default values
-		status = "Error";
-		message = "Something went wrong. Please contact admin.";
+		status = Constants.STATUS_ERROR;
+		message = Constants.MESSAGE_ERROR;
 	}
 
 	public void setResponse(String status, String message) {

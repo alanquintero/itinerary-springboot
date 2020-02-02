@@ -43,7 +43,10 @@
 				<tr th:each="flight : ${flights}">
 					<td><span th:text="${flight.origin}"></span></td>
 					<td><span th:text="${flight.destination}"></span></td>
-					<td><span th:text="${flight.price + ' ' + flight.currency}"></span></td>
+					<td th:switch="${flight.currency}">
+						<span th:case="'USD'" th:text="${flight.price + ' ' + flight.currency}"></span>
+						<span th:case="*" th:text="${flight.price + ' ' + flight.currency + ' (' + flight.usdPrice + ' USD)'}"></span>
+					</td>
 					<td>
 						<button type="button" th:data-flight="${flight.id}"
 							onclick="book(this.getAttribute('data-flight'));"
@@ -58,7 +61,7 @@
 		</table>
 
 		<form id="book-form">
-		    <div class="hidden-important" id="flight-id"></div>
+			<div class="hidden-important" id="flight-id"></div>
 			<div id="flight-details"></div>
 			<div class="form-group">
 				<label for="exampleInputEmail1">First Name</label> <input
@@ -70,12 +73,15 @@
 					type="text" class="form-control" id="lastName"
 					placeholder="Last name" autocomplete="off">
 			</div>
-			<button id="bookButton" type="button" onclick="bookFlight()" class="btn btn-primary">Book!</button>
-			<button id="cancelButton" type="button" onclick="cancelBook()" class="btn btn-danger">Cancel</button>
+			<button id="bookButton" type="button" onclick="bookFlight()"
+				class="btn btn-primary">Book!</button>
+			<button id="cancelButton" type="button" onclick="cancelBook()"
+				class="btn btn-danger">Cancel</button>
 		</form>
 		<br>
-		<button id="goToHomeButton" type="button" onclick="goToHomePage()" class="hidden btn btn-success">Return to Home page</button>
-		<br><br>
+		<button id="goToHomeButton" type="button" onclick="goToHomePage()"
+			class="hidden btn btn-success">Return to Home page</button>
+		<br> <br>
 		<div id="msg-box" class="hidden alert" role="alert"></div>
 
 	</main>
@@ -102,39 +108,45 @@
 			document.getElementById("bookButton").disabled = true;
 			document.getElementById("cancelButton").disabled = true;
 			var flightId = document.getElementById("flight-id").innerHTML;
-			var reservationInfo = {flightId:flightId, firstName: firstName, lastName: lastName};
+			var reservationInfo = {
+				flightId : flightId,
+				firstName : firstName,
+				lastName : lastName
+			};
 			resetMsgBox();
-			document.getElementById("goToHomeButton").classList.remove("hidden");
+			document.getElementById("goToHomeButton").classList
+					.remove("hidden");
 			$.ajax({
-	            url: '/reserveFlight',
-	            type: 'post',
-	            dataType: 'json',
-	            contentType: 'application/json',
-	            data: JSON.stringify(reservationInfo),
-	            success: function (data) {
-	            	var msgType = '';
-	            	if(data.status === 'success') {
-	            		msgType = "alert-success";
-	            	} else if(data.status === 'already-book') {
-	            		msgType = "alert-warning";
-	            	} else {
-	            		msgType = "alert-danger";
-	            	}
-	            	showMsgBox(msgType, data.message);
-	            },
-	            error: function (jqXHR, textStatus, errorThrown) { 
-	            	showMsgBox("alert-danger", "Something went wrong. Please contact admin.");
-	            }
-	        });
+				url : '/reserveFlight',
+				type : 'post',
+				dataType : 'json',
+				contentType : 'application/json',
+				data : JSON.stringify(reservationInfo),
+				success : function(data) {
+					var msgType = '';
+					if (data.status === 'success') {
+						msgType = "alert-success";
+					} else if (data.status === 'already-book') {
+						msgType = "alert-warning";
+					} else {
+						msgType = "alert-danger";
+					}
+					showMsgBox(msgType, data.message);
+				},
+				error : function(jqXHR, textStatus, errorThrown) {
+					showMsgBox("alert-danger",
+							"Something went wrong. Please contact admin.");
+				}
+			});
 		}
 	}
-	
+
 	function showMsgBox(msgType, message) {
 		document.getElementById("msg-box").classList.add(msgType);
 		document.getElementById("msg-box").innerHTML = message;
 		document.getElementById("msg-box").classList.remove("hidden");
 	}
-	
+
 	function resetMsgBox() {
 		document.getElementById("msg-box").innerHTML = "";
 		document.getElementById("msg-box").className = "";
@@ -145,13 +157,12 @@
 	function cancelBook() {
 		location.reload();
 	}
-	
+
 	function goToHomePage() {
 		resetMsgBox();
 		document.getElementById("goToHomeButton").classList.add("hidden");
 		location.reload();
 	}
-	
 </script>
 <!-- Latest compiled and minified JavaScript -->
 <script

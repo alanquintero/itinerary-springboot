@@ -3,7 +3,7 @@
 * @author Alan Quintero
 */
 
-package itinerary.task.config;
+package itinerary.task;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
