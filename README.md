@@ -38,6 +38,7 @@ Example:
 ### Technologies
 * Java 8
 * Spring Boot 2
+* JUnit 5
 * JPA
 * JavaScript
 * HMTL5
