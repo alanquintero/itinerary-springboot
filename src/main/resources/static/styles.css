@@ -1,11 +1,12 @@
 #book-form {
-	display: none;
+    display: none;
 }
 
 .hidden-important {
-	display: none; !important;
+    display: none;
+!important;
 }
 
 .hidden {
-	display: none;
+    display: none;
 }

@@ -1,49 +1,55 @@
-## Welcome to the Itinerary project
+# Spring Boot Itinerary Service
 
-### Description
-Itinerary WEB APP is a simple java web application that keeps a record of itineraries.
+A simple flight booking application built with **Spring Boot, Thymeleaf, JPA, and H2**.  
+Users can view available flights, see prices in different currencies, and reserve flights.
 
-Functionality:
+---
 
-* Show the list of available flights
-* You can Book a Flight! Just click on the Book button to fill the information
-* To Book a Flight you need to enter your First name, Last name and click on Book button
-* If a flight is still available you will receive a message in the screen with the confirmation
-* If a flight is no longer available (because someone else already booked it) then try to be faster the next time!
-* If a flight is not available anymore then it will disappear from the list of available flights when you reload the page
+## Features
 
-### How to Run it
-#### Database
-1. Import to MySQL Workbench the file **itinerryDb.sql** located in **src/main/resources**
+- List available flights
+- Display prices in original currency and USD
+- Book flights with first and last name
+- Prevent double-booking
+- Simple responsive UI with Bootstrap
 
-2. Modify the file **application.properties** with your Database credentials. **application.properties** location: **src/main/resources**
+---
 
-Example:
+## Technologies
 
-* spring.datasource.url=jdbc:mysql://**127.0.0.1:3306/itinerary**
-* spring.datasource.username=**root**
-* spring.datasource.password=**root**
+- Java 17+
+- Spring Boot 3.x
+- Spring Data JPA
+- Thymeleaf
+- H2 in-memory database
+- Bootstrap 3
+- JUnit 5 & Mockito for testing
 
-### Run it
-1. Import the project to your favorite IDE
+---
 
-2. Open the **StartWebApplication.java** file located in: **src/main/java/itinerary/task**
+## Setup
 
-3. Run **StartWebApplication** file as a **Java application**
+### 1. Clone the repo:
 
-4. Open your browser and go to: **http://localhost:8080/**
+```bash
+git clone https://github.com/your-username/itinerary-service.git
+cd itinerary-service
+```
 
-5. Have fun!
+### 2. Build and run:
 
-### Technologies
-* Java 8
-* Spring Boot 2
-* JUnit 5
-* JPA
-* JavaScript
-* HMTL5
-* CSS3
-* Bootstrap
-* MySQL
+```bash
+mvn clean install
+mvn spring-boot:run
+```
+
+Open in browser:
+
+```
+http://localhost:8080/
+```
+
+> H2 console is available at http://localhost:8080/h2-console (optional, for debugging)
 
 
+![Demo](docs/demo.gif)

@@ -1,174 +1,228 @@
 <!DOCTYPE HTML>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="utf-8">
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="author" content="Alan Quintero">
-<title>Itinerary Test Task</title>
-<link rel="stylesheet" href="styles.css">
-<!-- Latest compiled and minified CSS -->
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-	integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
-	crossorigin="anonymous">
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="author" content="Alan Quintero">
+    <title>Spring Framework Itinerary</title>
 
-<!-- Optional theme -->
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
-	integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
-	crossorigin="anonymous">
+    <!-- Custom styles -->
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+          crossorigin="anonymous">
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+          crossorigin="anonymous">
 </head>
 <body>
 
-	<main role="main" class="container">
+<main role="main" class="container">
 
-		<div class="starter-template">
-			<h1>Available Trips</h1>
-		</div>
+    <!-- Page header -->
+    <div class="starter-template">
+        <h1>Available Trips</h1>
+    </div>
 
-		<table id="flights-table" class="table table-striped">
-			<thead>
-				<tr>
-					<th scope="col">Origin</th>
-					<th scope="col">Destination</th>
-					<th scope="col">Price</th>
-					<th scope="col"></th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr th:if="${flights.empty}">
-					<td colspan="2">No Flights Available</td>
-				</tr>
-				<tr th:each="flight : ${flights}">
-					<td><span th:text="${flight.origin}"></span></td>
-					<td><span th:text="${flight.destination}"></span></td>
-					<td th:switch="${flight.currency}">
-						<span th:case="'USD'" th:text="${flight.price + ' ' + flight.currency}"></span>
-						<span th:case="*" th:text="${flight.price + ' ' + flight.currency + ' (' + flight.usdPrice + ' USD)'}"></span>
-					</td>
-					<td>
-						<button type="button" th:data-flight="${flight.id}"
-							onclick="book(this.getAttribute('data-flight'));"
-							class="btn btn-primary">Book</button>
-					</td>
-					<td>
-						<div class="hidden-important" th:id="${flight.id}"
-							th:text="${flight.origin + ' to ' + flight.destination + ' - $' + flight.price + ' ' + flight.currency}"></div>
-					</td>
-				</tr>
-			</tbody>
-		</table>
+    <!-- Flights table -->
+    <table id="flights-table" class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">Origin</th>
+            <th scope="col">Destination</th>
+            <th scope="col">Price</th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Message if no flights are available -->
+        <tr th:if="${flights.empty}">
+            <td colspan="4">No Flights Available</td>
+        </tr>
 
-		<form id="book-form">
-			<div class="hidden-important" id="flight-id"></div>
-			<div id="flight-details"></div>
-			<div class="form-group">
-				<label for="exampleInputEmail1">First Name</label> <input
-					type="text" class="form-control" id="firstName"
-					placeholder="First Name" autocomplete="off">
-			</div>
-			<div class="form-group">
-				<label for="exampleInputPassword1">Last Name</label> <input
-					type="text" class="form-control" id="lastName"
-					placeholder="Last name" autocomplete="off">
-			</div>
-			<button id="bookButton" type="button" onclick="bookFlight()"
-				class="btn btn-primary">Book!</button>
-			<button id="cancelButton" type="button" onclick="cancelBook()"
-				class="btn btn-danger">Cancel</button>
-		</form>
-		<br>
-		<button id="goToHomeButton" type="button" onclick="goToHomePage()"
-			class="hidden btn btn-success">Return to Home page</button>
-		<br> <br>
-		<div id="msg-box" class="hidden alert" role="alert"></div>
+        <!-- Loop through flights -->
+        <tr th:each="flight : ${flights}">
+            <td><span th:text="${flight.getOrigin()}"></span></td>
+            <td><span th:text="${flight.getDestination()}"></span></td>
+            <td th:switch="${flight.getCurrency()}">
+                <!-- Show price in USD -->
+                <span th:case="'USD'"
+                      th:text="${#numbers.formatDecimal(flight.getPrice(), 1, 'COMMA', 2, 'POINT') + ' ' + flight.getCurrency()}"></span>
+                <!-- Show price with conversion to USD if not USD -->
+                <span th:case="*"
+                      th:text="${#numbers.formatDecimal(flight.getPrice(), 1, 'COMMA', 2, 'POINT') + ' ' + flight.getCurrency() + ' (' + #numbers.formatDecimal(flight.getPriceUsd(), 1, 'COMMA', 2, 'POINT') + ' USD)'}"></span>
+            </td>
+            <td>
+                <button type="button" th:data-flight="${flight.getId()}"
+                        onclick="book(this.getAttribute('data-flight'));"
+                        class="btn btn-primary">Book
+                </button>
+            </td>
+            <!-- Hidden div to store flight details for booking -->
+            <td>
+                <div class="hidden-important"
+                     th:id="${flight.getId()}"
+                     th:text="${flight.getOrigin() + ' to ' + flight.getDestination() +
+                              ' - $' + #numbers.formatDecimal(flight.getPrice(), 1, 'COMMA', 2, 'POINT') +
+                              ' ' + flight.getCurrency() +
+                              (flight.getCurrency().equals('USD') ? ''
+                                : ' (' + #numbers.formatDecimal(flight.getPriceUsd(), 1, 'COMMA', 2, 'POINT') + ' USD)')}">
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
 
-	</main>
-	<script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
-	<script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
-	<script type="text/javascript"
-		th:src="@{webjars/bootstrap/4.2.1/js/bootstrap.min.js}"></script>
-</body>
-<script>
-	function book(flightId) {
-		document.getElementById("flight-id").innerHTML = flightId;
-		document.getElementById("flight-details").innerHTML = document
-				.getElementById(flightId).innerHTML;
-		document.getElementById("book-form").style.display = "block";
-		document.getElementById("flights-table").style.display = "none";
-	}
+    <!-- Booking form -->
+    <form id="book-form" style="display:none;">
+        <div class="hidden-important" id="flight-id"></div>
+        <div id="flight-details"></div>
 
-	function bookFlight() {
-		var firstName = document.getElementById("firstName").value;
-		var lastName = document.getElementById("lastName").value;
-		if (firstName === '' || lastName === '') {
-			showMsgBox("alert-danger", "First Name and Last Name are required!");
-		} else {
-			document.getElementById("bookButton").disabled = true;
-			document.getElementById("cancelButton").disabled = true;
-			var flightId = document.getElementById("flight-id").innerHTML;
-			var reservationInfo = {
-				flightId : flightId,
-				firstName : firstName,
-				lastName : lastName
-			};
-			resetMsgBox();
-			document.getElementById("goToHomeButton").classList
-					.remove("hidden");
-			$.ajax({
-				url : '/reserveFlight',
-				type : 'post',
-				dataType : 'json',
-				contentType : 'application/json',
-				data : JSON.stringify(reservationInfo),
-				success : function(data) {
-					var msgType = '';
-					if (data.status === 'success') {
-						msgType = "alert-success";
-					} else if (data.status === 'already-book') {
-						msgType = "alert-warning";
-					} else {
-						msgType = "alert-danger";
-					}
-					showMsgBox(msgType, data.message);
-				},
-				error : function(jqXHR, textStatus, errorThrown) {
-					showMsgBox("alert-danger",
-							"Something went wrong. Please contact admin.");
-				}
-			});
-		}
-	}
+        <div class="form-group">
+            <label for="firstName">First Name</label>
+            <input type="text" class="form-control" id="firstName"
+                   placeholder="First Name" autocomplete="off">
+        </div>
+        <div class="form-group">
+            <label for="lastName">Last Name</label>
+            <input type="text" class="form-control" id="lastName"
+                   placeholder="Last Name" autocomplete="off">
+        </div>
 
-	function showMsgBox(msgType, message) {
-		document.getElementById("msg-box").classList.add(msgType);
-		document.getElementById("msg-box").innerHTML = message;
-		document.getElementById("msg-box").classList.remove("hidden");
-	}
+        <button id="bookButton" type="button" onclick="bookFlight()"
+                class="btn btn-primary">Book!
+        </button>
+        <button id="cancelButton" type="button" onclick="cancelBook()"
+                class="btn btn-danger">Cancel
+        </button>
+    </form>
 
-	function resetMsgBox() {
-		document.getElementById("msg-box").innerHTML = "";
-		document.getElementById("msg-box").className = "";
-		document.getElementById("msg-box").classList.add("alert");
-		document.getElementById("msg-box").classList.add("hidden");
-	}
+    <!-- Return to home page -->
+    <br>
+    <button id="goToHomeButton" type="button" onclick="goToHomePage()"
+            class="hidden btn btn-success">Return to Home page
+    </button>
+    <br><br>
 
-	function cancelBook() {
-		location.reload();
-	}
+    <!-- Message box for alerts -->
+    <div id="msg-box" class="hidden alert" role="alert"></div>
 
-	function goToHomePage() {
-		resetMsgBox();
-		document.getElementById("goToHomeButton").classList.add("hidden");
-		location.reload();
-	}
-</script>
-<!-- Latest compiled and minified JavaScript -->
+</main>
+
+<!-- jQuery -->
+<script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
+<script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+
+<!-- Bootstrap JS -->
+<script type="text/javascript"
+        th:src="@{webjars/bootstrap/4.2.1/js/bootstrap.min.js}"></script>
 <script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
-	integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-	crossorigin="anonymous"></script>
+        src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
 
+<!-- JavaScript functions for booking -->
+<script>
+    /**
+     * Show booking form with selected flight details
+     */
+    function book(flightId) {
+        document.getElementById("flight-id").innerHTML = flightId;
+        document.getElementById("flight-details").innerHTML = document
+            .getElementById(flightId).innerHTML;
+        document.getElementById("book-form").style.display = "block";
+        document.getElementById("flights-table").style.display = "none";
+    }
+
+    /**
+     * Send booking request via AJAX
+     */
+    function bookFlight() {
+        var firstName = document.getElementById("firstName").value;
+        var lastName = document.getElementById("lastName").value;
+
+        if (firstName === '' || lastName === '') {
+            showMsgBox("alert-danger", "First Name and Last Name are required!");
+            return;
+        }
+
+        document.getElementById("bookButton").disabled = true;
+        document.getElementById("cancelButton").disabled = true;
+        var flightId = document.getElementById("flight-id").innerHTML;
+
+        var reservationInfo = {
+            flightFk: flightId,
+            firstname: firstName,
+            lastname: lastName
+        };
+
+        resetMsgBox();
+        document.getElementById("goToHomeButton").classList.remove("hidden");
+
+        $.ajax({
+            url: '/reserveFlight',
+            type: 'post',
+            dataType: 'json',
+            contentType: 'application/json',
+            data: JSON.stringify(reservationInfo),
+            success: function (data) {
+                let msgType = '';
+                if (data.status === 'success') {
+                    msgType = "alert-success";
+                } else if (data.status === 'already-book') {
+                    msgType = "alert-warning";
+                } else {
+                    msgType = "alert-danger";
+                }
+                showMsgBox(msgType, data.message);
+            },
+            error: function () {
+                showMsgBox("alert-danger",
+                    "Something went wrong. Please contact admin.");
+            }
+        });
+    }
+
+    /**
+     * Show alert message in the message box
+     */
+    function showMsgBox(msgType, message) {
+        const msgBox = document.getElementById("msg-box");
+        msgBox.className = "";
+        msgBox.classList.add("alert", msgType);
+        msgBox.innerHTML = message;
+        msgBox.classList.remove("hidden");
+    }
+
+    /**
+     * Reset message box
+     */
+    function resetMsgBox() {
+        const msgBox = document.getElementById("msg-box");
+        msgBox.innerHTML = "";
+        msgBox.className = "alert hidden";
+    }
+
+    /**
+     * Cancel booking and reload page
+     */
+    function cancelBook() {
+        location.reload();
+    }
+
+    /**
+     * Go back to home page and reset state
+     */
+    function goToHomePage() {
+        resetMsgBox();
+        document.getElementById("goToHomeButton").classList.add("hidden");
+        location.reload();
+    }
+</script>
+</body>
 </html>
-
